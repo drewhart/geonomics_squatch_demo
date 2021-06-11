@@ -1,0 +1,78 @@
+<title>Maxent model for Bigfoot-all</title>
+<CENTER><H1>Maxent model for Bigfoot-all</H1></CENTER>
+<br> This page contains some analysis of the Maxent model for Bigfoot-all, created Tue Feb 24 11:18:19 CST 2009 using Maxent version 3.1.0.  If you would like to do further analyses, the raw data used here is linked to at the end of this page.<br>
+<br><HR><H2>Analysis of omission/commission</H2>
+The following picture shows the omission rate and predicted area as a function of the cumulative threshold.  The omission rate is is calculated both on the training presence records, and (if test data are used) on the test records.  The omission rate should be close to the predicted omission, because of the definition of the cumulative threshold.
+<br><img src="plots\Bigfoot-all_omission.png"><br>
+<br> The next picture is the receiver operating characteristic (ROC) curve for the same data.  Note that the specificity is defined using predicted area, rather than true commission (see the paper by Phillips, Anderson and Schapire cited on the help page for discussion of what this means).  This implies that the maximum achievable AUC is less than 1.  If test data is drawn from the Maxent distribution itself, then the maximum possible test AUC would be 0.970 rather than 1; in practice the test AUC may exceed this bound.
+<br><img src="plots\Bigfoot-all_roc.png"><br>
+<br>
+<br>
+Some common thresholds and corresponding omission rates are as follows.  If test data are available, binomial probabilities are calculated exactly if the number of test samples is at most 25, otherwise using a normal approximation to the binomial.  These are 1-sided p-values for the null hypothesis that test points are predicted no better than by a random prediction with the same fractional predicted area.  The "Balance" threshold minimizes 6 * training omission rate + .04 * cumulative threshold + 1.6 * fractional predicted area.<br>
+<br><table border cols=6 cellpadding=3><tr><th>Cumulative threshold</th><th>Logistic threshold</th><th>Description</th><th>Fractional predicted area</th><th>Training omission rate</th><th>Test omission rate</th><th>P-value</th><tr align=center><td>1.000</td><td>0.012</td><td>Fixed cumulative value</td><td>0.169</td><td>0.002</td><td>0.000</td><td>0E0</td><tr align=center><td>5.000</td><td>0.118</td><td>Fixed cumulative value</td><td>0.085</td><td>0.009</td><td>0.018</td><td>0E0</td><tr align=center><td>10.000</td><td>0.213</td><td>Fixed cumulative value</td><td>0.064</td><td>0.027</td><td>0.027</td><td>0E0</td><tr align=center><td>0.955</td><td>0.012</td><td>Minimum training presence</td><td>0.172</td><td>0.000</td><td>0.000</td><td>0E0</td><tr align=center><td>24.293</td><td>0.406</td><td>10 percentile training presence</td><td>0.039</td><td>0.100</td><td>0.082</td><td>0E0</td><tr align=center><td>13.858</td><td>0.281</td><td>Equal training sensitivity and specificity</td><td>0.055</td><td>0.054</td><td>0.045</td><td>0E0</td><tr align=center><td>8.527</td><td>0.179</td><td>Maximum training sensitivity plus specificity</td><td>0.069</td><td>0.018</td><td>0.027</td><td>0E0</td><tr align=center><td>17.182</td><td>0.310</td><td>Equal test sensitivity and specificity</td><td>0.049</td><td>0.070</td><td>0.045</td><td>0E0</td><tr align=center><td>11.474</td><td>0.243</td><td>Maximum test sensitivity plus specificity</td><td>0.060</td><td>0.034</td><td>0.027</td><td>0E0</td><tr align=center><td>1.452</td><td>0.017</td><td>Balance training omission, predicted area and threshold value</td><td>0.144</td><td>0.002</td><td>0.000</td><td>0E0</td><tr align=center><td>6.284</td><td>0.150</td><td>Equate entropy of thresholded and non-thresholded distributions</td><td>0.078</td><td>0.016</td><td>0.018</td><td>0E0</td></table><br>
+<br><HR><H2>Pictures of the model</H2>
+This is a representation of the Maxent model for Bigfoot-all.  Warmer colors show areas with better predicted conditions.  White dots show the presence locations used for training, while violet dots show test locations.
+Click on the image for a full-size version.<br>
+<br><a href = "plots/Bigfoot-all.png"> <img src="plots/Bigfoot-all.png" width=600></a><br>
+This is the projection of the Maxent model for Bigfoot-all onto the environmental variables in C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\CCM5arcmin-reducedset.  Warmer colors show areas with better predicted conditions.  White dots show the presence locations used for training, while violet dots show test locations.
+Click on the image for a full-size version.<br>
+<br><a href = "plots/Bigfoot-all_CCM5arcmin-reducedset.png"> <img src="plots/Bigfoot-all_CCM5arcmin-reducedset.png" width=600></a><br>
+The following picture shows where clamping occurred while projecting the Maxent model onto the environmental variables in C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\CCM5arcmin-reducedset.  Clamping means that environmental values are restricted to the range of values encountered during training, and similarly for the raw predictions.  The values shown in the picture give the total absolute change to the exponent in the Maxent model due to clamping.  Warmer colors show areas where more clamping has occurred because the environemtal variables (or the prediction) are further from the range of values seen during training.
+Click on the image for a full-size version.<br>
+<br><a href = "plots/Bigfoot-all_CCM5arcmin-reducedset_clamping.png"> <img src="plots/Bigfoot-all_CCM5arcmin-reducedset_clamping.png" width=600></a><br>
+<br><HR><H2>Response curves</H2>
+<br>These curves show how each environmental variable affects the Maxent prediction.  The (raw) Maxent model has the form exp(...)/constant, and the curves show how the exponent changes as each environmental variable is varied, keeping all other environmental variables at their average sample value. Click on a response curve to see a larger version.<br><br>
+<a href = "plots/Bigfoot-all_BIO1.png"> <img src="plots/Bigfoot-all_BIO1_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO15.png"> <img src="plots/Bigfoot-all_BIO15_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO18.png"> <img src="plots/Bigfoot-all_BIO18_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO19.png"> <img src="plots/Bigfoot-all_BIO19_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO2.png"> <img src="plots/Bigfoot-all_BIO2_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO3.png"> <img src="plots/Bigfoot-all_BIO3_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO7.png"> <img src="plots/Bigfoot-all_BIO7_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO8.png"> <img src="plots/Bigfoot-all_BIO8_thumb.png"></a>
+<a href = "plots/Bigfoot-all_BIO9.png"> <img src="plots/Bigfoot-all_BIO9_thumb.png"></a>
+<br>
+<br><HR><H2>Analysis of variable contributions</H2><br>
+The following table gives a heuristic estimate of relative contributions of the environmental variables to the Maxent model.  To determine the estimate, in each iteration of the training algorithm, the increase in regularized gain is added to the contribution of the corresponding variable, or subtracted from it if the change to the absolute value of lambda is negative.  As with the jackknife, variable contributions should be interpreted with caution when the predictor variables are correlated.<br>
+<br><table border cols=2><tr><th>Variable</th><th>Percent contribution<tr align=right><td>BIO19</td><td>60.7</td></tr><tr align=right><td>BIO9</td><td>15.2</td></tr><tr align=right><td>BIO8</td><td>6.2</td></tr><tr align=right><td>BIO1</td><td>5.4</td></tr><tr align=right><td>BIO15</td><td>3.9</td></tr><tr align=right><td>BIO2</td><td>3.4</td></tr><tr align=right><td>BIO7</td><td>2.9</td></tr><tr align=right><td>BIO3</td><td>1.7</td></tr><tr align=right><td>BIO18</td><td>0.5</td></tr></table><br><br>
+The following picture shows the results of the jackknife test of variable importance.  The environmental variable with highest gain when used in isolation is BIO19, which therefore appears to have the most useful information by itself.  The environmental variable that decreases the gain the most when it is omitted is BIO19, which therefore appears to have the most information that isn't present in the other variables.<br>
+<br><img src="plots\Bigfoot-all_jacknife.png"><br>
+<br>The next picture shows the same jackknife test, using test gain instead of training gain.  Note that conclusions about which variables are most important can change, now that we're looking at test data.
+<br><img src="plots\Bigfoot-all_jacknife_test.png"><br>
+<br>Lastly, we have the same jackknife test, using AUC on test data.
+<br><img src="plots\Bigfoot-all_jacknife_auc.png"><br>
+<br><HR><H2>Raw data outputs and control parameters</H2><br>
+The data used in the above analysis is contained in the next links.  Please see the Help button for more information on these.<br>
+<a href = "Bigfoot-all.asc">The model applied to the training environmental layers</a><br>
+<a href = "Bigfoot-all_CCM5arcmin-reducedset.asc">The model applied to the environmental layers in C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\CCM5arcmin-reducedset</a><br>
+<a href = "Bigfoot-all.lambdas">The coefficients of the model</a><br>
+<a href = "Bigfoot-all_omission.csv">The omission and predicted area for varying cumulative and raw thresholds</a><br>
+<a href = "Bigfoot-all_samplePredictions.csv">The prediction strength at the training and (optionally) test presence sites</a><br>
+<a href = "maxentResults.csv">Results for all species modeled in the same Maxent run, with summary statistics and (optionally) jackknife results</a><br>
+<br><br>
+Regularized training gain is 2.226, training AUC is 0.983, unregularized training gain is 2.337.<br>
+Unregularized test gain is 2.971.<br>
+Test AUC is 0.983, standard deviation is 0.002 (calculated as in DeLong, DeLong & Clarke-Pearson 1988, equation 2).<br>
+Algorithm terminated after 500 iterations (15 seconds).<br>
+<br>
+The follow parameters and settings were used during the run:<br>
+441 presence records used for training, 110 for testing.<br>
+10441 points used to determine the Maxent distribution (background points and presence points).<br>
+Environmental layers used (all continuous): BIO1 BIO15 BIO18 BIO19 BIO2 BIO3 BIO7 BIO8 BIO9<br>
+Command line:<br>
+Feature types used: Linear Quadratic Product Threshold Hinge<br>
+Regularization multiplier is 1.0<br>
+Regularization values: linear/quadratic/product: 0.050 categorical: 0.250 threshold: 1.000 hinge: 0.500<br>
+Species file is C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\BFall.csv<br>
+Environmental variables from C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\contemporary5arcmin<br>
+Output directory is C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\tempout<br>
+Projection layers from C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\CCM5arcmin-reducedset<br>
+Output format is Logistic<br>
+Output file type is .asc<br>
+Maximum iterations is 500<br>
+Convergence threshold is 1.0E-5<br>
+Random test percentage is 20<br>
+Jackknife selected<br>
+Remove duplicates selected<br>
+Make pictures selected<br>
+Create response curves selected<br>

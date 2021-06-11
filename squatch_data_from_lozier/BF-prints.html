@@ -1,0 +1,70 @@
+<title>Maxent model for BF-prints</title>
+<CENTER><H1>Maxent model for BF-prints</H1></CENTER>
+<br> This page contains some analysis of the Maxent model for BF-prints, created Tue Feb 24 10:18:28 CST 2009 using Maxent version 3.1.0.  If you would like to do further analyses, the raw data used here is linked to at the end of this page.<br>
+<br><HR><H2>Analysis of omission/commission</H2>
+The following picture shows the omission rate and predicted area as a function of the cumulative threshold.  The omission rate is is calculated both on the training presence records, and (if test data are used) on the test records.  The omission rate should be close to the predicted omission, because of the definition of the cumulative threshold.
+<br><img src="plots\BF-prints_omission.png"><br>
+<br> The next picture is the receiver operating characteristic (ROC) curve for the same data.  Note that the specificity is defined using predicted area, rather than true commission (see the paper by Phillips, Anderson and Schapire cited on the help page for discussion of what this means).  This implies that the maximum achievable AUC is less than 1.  If test data is drawn from the Maxent distribution itself, then the maximum possible test AUC would be 0.969 rather than 1; in practice the test AUC may exceed this bound.
+<br><img src="plots\BF-prints_roc.png"><br>
+<br>
+<br>
+Some common thresholds and corresponding omission rates are as follows.  If test data are available, binomial probabilities are calculated exactly if the number of test samples is at most 25, otherwise using a normal approximation to the binomial.  These are 1-sided p-values for the null hypothesis that test points are predicted no better than by a random prediction with the same fractional predicted area.  The "Balance" threshold minimizes 6 * training omission rate + .04 * cumulative threshold + 1.6 * fractional predicted area.<br>
+<br><table border cols=6 cellpadding=3><tr><th>Cumulative threshold</th><th>Logistic threshold</th><th>Description</th><th>Fractional predicted area</th><th>Training omission rate</th><th>Test omission rate</th><th>P-value</th><tr align=center><td>1.000</td><td>0.006</td><td>Fixed cumulative value</td><td>0.261</td><td>0.000</td><td>0.000</td><td>3.094E-11</td><tr align=center><td>5.000</td><td>0.053</td><td>Fixed cumulative value</td><td>0.111</td><td>0.014</td><td>0.000</td><td>6.869E-18</td><tr align=center><td>10.000</td><td>0.123</td><td>Fixed cumulative value</td><td>0.070</td><td>0.014</td><td>0.056</td><td>3.726E-19</td><tr align=center><td>1.394</td><td>0.009</td><td>Minimum training presence</td><td>0.222</td><td>0.000</td><td>0.000</td><td>1.772E-12</td><tr align=center><td>21.144</td><td>0.302</td><td>10 percentile training presence</td><td>0.038</td><td>0.096</td><td>0.167</td><td>3.11E-19</td><tr align=center><td>13.706</td><td>0.187</td><td>Equal training sensitivity and specificity</td><td>0.055</td><td>0.055</td><td>0.111</td><td>9.103E-19</td><tr align=center><td>10.609</td><td>0.133</td><td>Maximum training sensitivity plus specificity</td><td>0.067</td><td>0.014</td><td>0.056</td><td>1.726E-19</td><tr align=center><td>12.582</td><td>0.167</td><td>Equal test sensitivity and specificity</td><td>0.059</td><td>0.041</td><td>0.056</td><td>1.927E-20</td><tr align=center><td>6.392</td><td>0.072</td><td>Maximum test sensitivity plus specificity</td><td>0.096</td><td>0.014</td><td>0.000</td><td>4.887E-19</td><tr align=center><td>1.394</td><td>0.009</td><td>Balance training omission, predicted area and threshold value</td><td>0.222</td><td>0.000</td><td>0.000</td><td>1.772E-12</td><tr align=center><td>9.354</td><td>0.109</td><td>Equate entropy of thresholded and non-thresholded distributions</td><td>0.074</td><td>0.014</td><td>0.056</td><td>8.931E-19</td></table><br>
+<br><HR><H2>Pictures of the model</H2>
+This is a representation of the Maxent model for BF-prints.  Warmer colors show areas with better predicted conditions.  White dots show the presence locations used for training, while violet dots show test locations.
+Click on the image for a full-size version.<br>
+<br><a href = "plots/BF-prints.png"> <img src="plots/BF-prints.png" width=600></a><br>
+<br><HR><H2>Response curves</H2>
+<br>These curves show how each environmental variable affects the Maxent prediction.  The (raw) Maxent model has the form exp(...)/constant, and the curves show how the exponent changes as each environmental variable is varied, keeping all other environmental variables at their average sample value. Click on a response curve to see a larger version.<br><br>
+<a href = "plots/BF-prints_BIO1.png"> <img src="plots/BF-prints_BIO1_thumb.png"></a>
+<a href = "plots/BF-prints_BIO15.png"> <img src="plots/BF-prints_BIO15_thumb.png"></a>
+<a href = "plots/BF-prints_BIO18.png"> <img src="plots/BF-prints_BIO18_thumb.png"></a>
+<a href = "plots/BF-prints_BIO19.png"> <img src="plots/BF-prints_BIO19_thumb.png"></a>
+<a href = "plots/BF-prints_BIO2.png"> <img src="plots/BF-prints_BIO2_thumb.png"></a>
+<a href = "plots/BF-prints_BIO3.png"> <img src="plots/BF-prints_BIO3_thumb.png"></a>
+<a href = "plots/BF-prints_BIO7.png"> <img src="plots/BF-prints_BIO7_thumb.png"></a>
+<a href = "plots/BF-prints_BIO8.png"> <img src="plots/BF-prints_BIO8_thumb.png"></a>
+<a href = "plots/BF-prints_BIO9.png"> <img src="plots/BF-prints_BIO9_thumb.png"></a>
+<br>
+<br><HR><H2>Analysis of variable contributions</H2><br>
+The following table gives a heuristic estimate of relative contributions of the environmental variables to the Maxent model.  To determine the estimate, in each iteration of the training algorithm, the increase in regularized gain is added to the contribution of the corresponding variable, or subtracted from it if the change to the absolute value of lambda is negative.  As with the jackknife, variable contributions should be interpreted with caution when the predictor variables are correlated.<br>
+<br><table border cols=2><tr><th>Variable</th><th>Percent contribution<tr align=right><td>BIO19</td><td>39.1</td></tr><tr align=right><td>BIO18</td><td>17.9</td></tr><tr align=right><td>BIO8</td><td>14.1</td></tr><tr align=right><td>BIO7</td><td>13.7</td></tr><tr align=right><td>BIO15</td><td>7.4</td></tr><tr align=right><td>BIO3</td><td>5.4</td></tr><tr align=right><td>BIO1</td><td>1.7</td></tr><tr align=right><td>BIO9</td><td>0.5</td></tr><tr align=right><td>BIO2</td><td>0.3</td></tr></table><br><br>
+The following picture shows the results of the jackknife test of variable importance.  The environmental variable with highest gain when used in isolation is BIO19, which therefore appears to have the most useful information by itself.  The environmental variable that decreases the gain the most when it is omitted is BIO15, which therefore appears to have the most information that isn't present in the other variables.<br>
+<br><img src="plots\BF-prints_jacknife.png"><br>
+<br>The next picture shows the same jackknife test, using test gain instead of training gain.  Note that conclusions about which variables are most important can change, now that we're looking at test data.
+<br><img src="plots\BF-prints_jacknife_test.png"><br>
+<br>Lastly, we have the same jackknife test, using AUC on test data.
+<br><img src="plots\BF-prints_jacknife_auc.png"><br>
+<br><HR><H2>Raw data outputs and control parameters</H2><br>
+The data used in the above analysis is contained in the next links.  Please see the Help button for more information on these.<br>
+<a href = "BF-prints.asc">The model applied to the training environmental layers</a><br>
+<a href = "BF-prints.lambdas">The coefficients of the model</a><br>
+<a href = "BF-prints_omission.csv">The omission and predicted area for varying cumulative and raw thresholds</a><br>
+<a href = "BF-prints_samplePredictions.csv">The prediction strength at the training and (optionally) test presence sites</a><br>
+<a href = "maxentResults.csv">Results for all species modeled in the same Maxent run, with summary statistics and (optionally) jackknife results</a><br>
+<br><br>
+Regularized training gain is 2.597, training AUC is 0.982, unregularized training gain is 2.858.<br>
+Unregularized test gain is 2.876.<br>
+Test AUC is 0.980, standard deviation is 0.006 (calculated as in DeLong, DeLong & Clarke-Pearson 1988, equation 2).<br>
+Algorithm terminated after 500 iterations (14 seconds).<br>
+<br>
+The follow parameters and settings were used during the run:<br>
+73 presence records used for training, 18 for testing.<br>
+10073 points used to determine the Maxent distribution (background points and presence points).<br>
+Environmental layers used (all continuous): BIO1 BIO15 BIO18 BIO19 BIO2 BIO3 BIO7 BIO8 BIO9<br>
+Command line:<br>
+Feature types used: Linear Quadratic Hinge<br>
+Regularization multiplier is 1.0<br>
+Regularization values: linear/quadratic/product: 0.127 categorical: 0.250 hinge: 0.500<br>
+Species file is C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\BFprintsonly.csv<br>
+Environmental variables from C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\contemporary5arcmin<br>
+Output directory is C:\Users\Jeff Lozier\Research\Bigfoot ENM\Revision\tempout<br>
+Output format is Logistic<br>
+Output file type is .asc<br>
+Maximum iterations is 500<br>
+Convergence threshold is 1.0E-5<br>
+Random test percentage is 20<br>
+Jackknife selected<br>
+Remove duplicates selected<br>
+Make pictures selected<br>
+Create response curves selected<br>
